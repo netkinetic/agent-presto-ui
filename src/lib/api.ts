@@ -16,22 +16,21 @@ export async function fetchIndustries(): Promise<string[]> {
 
 
 export async function fetchBusinessTypes(industry: string): Promise<string[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/dynamic-business-types`, {
+  const res = await fetch(`${API_BASE}/api/dynamic-business-types`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ industry }),
   });
 
   const json = await res.json();
 
-  if (!json.success || !Array.isArray(json.data)) {
+  if (!json.data || !json.data.businessTypes) {
     throw new Error('Invalid response while fetching business types');
   }
 
-  return json.data;
+  return json.data.businessTypes;
 }
+
 
 
 export async function fetchGoals({
