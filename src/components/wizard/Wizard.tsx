@@ -13,9 +13,8 @@ import StepEight from './StepEight';
 export default function Wizard() {
   const [step, setStep] = useState(1);
 
-  // Start on Step 1
   useEffect(() => {
-    setStep(1);
+    setStep(1); // Always start at step 1 on mount
   }, []);
 
   const next = () => setStep((prev) => Math.min(prev + 1, 8));
@@ -23,7 +22,7 @@ export default function Wizard() {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      {/* Step Counter */}
+      {/* Step Header */}
       <div className="mb-6 flex justify-between items-center">
         <div className="text-lg font-medium text-gray-700">Step {step} of 8</div>
         {step > 1 && step < 8 && (
@@ -36,12 +35,12 @@ export default function Wizard() {
         )}
       </div>
 
-      {/* Step Renderer */}
+      {/* Render Step Component */}
       <div className="transition-all duration-300 ease-in-out">
         {step === 1 && <StepOne onNext={next} />}
         {step === 2 && <StepTwo onNext={next} onBack={back} />}
         {step === 3 && <StepThree onNext={next} onBack={back} />}
-        {step === 4 && <StepFour onNext={next} onBack={back} />}
+        {step === 4 && <StepFour onConfirm={next} />}
         {step === 5 && <StepFive onNext={next} onBack={back} />}
         {step === 6 && <StepSix onNext={next} onBack={back} />}
         {step === 7 && <StepSeven onNext={next} onBack={back} />}
