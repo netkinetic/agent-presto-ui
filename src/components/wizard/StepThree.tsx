@@ -5,38 +5,38 @@ import { fetchGoals } from '@/lib/api';
 import { useWizardState } from '@/store/wizardState';
 
 export default function StepThree({ onNext }: { onNext: () => void }) {
-  const { industry, businessType, goal, setGoal } = useWizardState();
+  const { industry, businessType, setGoal } = useWizardState();
   const [goals, setGoals] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (industry && businessType) {
-      fetchGoals(industry, businessType)
+      fetchGoals(businessType)
         .then((data) => setGoals(data))
         .catch((err) => console.error('Failed to fetch goals:', err))
         .finally(() => setLoading(false));
     }
   }, [industry, businessType]);
 
+  const handleSelect = (selectedGoal: string) => {
+    setGoal(selectedGoal);
+    onNext(); // auto-advance
+  };
+
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">What do you want to accomplish?</h2>
       {loading ? (
-        <p>Loading goals...</p>
+        <p className="text-gray-500">Loading goals...</p>
       ) : (
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {goals.map((item) => (
+          {goals.map((goal) => (
             <li
-              key={item}
-              onClick={() => {
-                setGoal(item);
-                onNext();
-              }}
-              className={`p-4 border rounded cursor-pointer transition ${
-                goal === item ? 'bg-blue-100 border-blue-500' : 'hover:bg-gray-100'
-              }`}
+              key={goal}
+              onClick={() => handleSelect(goal)}
+              className="p-4 border rounded cursor-pointer hover:bg-blue-100 hover:border-blue-500 transition"
             >
-              {item}
+              {goal}
             </li>
           ))}
         </ul>

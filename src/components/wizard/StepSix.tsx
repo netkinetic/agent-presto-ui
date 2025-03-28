@@ -25,17 +25,15 @@ export default function StepSix({ onNext, onBack }: { onNext: () => void; onBack
           playbook_duration: campaignData.playbookDuration,
         });
 
-        if (response.ai_data) {
+        if (response?.ai_data) {
           setGeneratedContent(response.ai_data);
           setStatus('✅ Campaign content generated successfully!');
-          setTimeout(() => {
-            onNext();
-          }, 1000);
+          setTimeout(onNext, 1000);
         } else {
           throw new Error('No content returned from AI.');
         }
       } catch (err: any) {
-        console.error('Error generating campaign:', err);
+        console.error('❌ AI Generation Error:', err);
         setError(err.message || 'An error occurred while generating content.');
       } finally {
         setLoading(false);
@@ -59,11 +57,14 @@ export default function StepSix({ onNext, onBack }: { onNext: () => void; onBack
       {!loading && error && (
         <div className="space-y-4">
           <p className="text-red-600 font-semibold">{error}</p>
-          <div className="mt-6">
-            <button onClick={onBack} className="px-4 py-2 bg-gray-200 rounded mr-2">
+          <div className="mt-6 flex justify-center gap-4">
+            <button onClick={onBack} className="px-4 py-2 bg-gray-200 rounded">
               ← Back
             </button>
-            <button onClick={() => window.location.reload()} className="px-4 py-2 bg-blue-600 text-white rounded">
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-blue-600 text-white rounded"
+            >
               Retry
             </button>
           </div>

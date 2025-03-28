@@ -7,7 +7,6 @@ import { useWizardState } from '@/store/wizardState';
 export default function StepTwo({ onNext }: { onNext: () => void }) {
   const { industry, setBusinessType } = useWizardState();
   const [businessTypes, setBusinessTypes] = useState<string[]>([]);
-  const [selected, setSelected] = useState('');
 
   useEffect(() => {
     if (industry) {
@@ -15,11 +14,9 @@ export default function StepTwo({ onNext }: { onNext: () => void }) {
     }
   }, [industry]);
 
-  const handleNext = () => {
-    if (selected) {
-      setBusinessType(selected);
-      onNext();
-    }
+  const handleSelect = (type: string) => {
+    setBusinessType(type);
+    onNext(); // proceed to next step automatically
   };
 
   return (
@@ -29,21 +26,12 @@ export default function StepTwo({ onNext }: { onNext: () => void }) {
         {businessTypes.map((type) => (
           <button
             key={type}
-            className={`w-full text-left p-3 border rounded ${selected === type ? 'bg-blue-100 border-blue-500' : 'bg-white'}`}
-            onClick={() => setSelected(type)}
+            className="w-full text-left p-3 border rounded bg-white hover:bg-blue-100 hover:border-blue-500 transition"
+            onClick={() => handleSelect(type)}
           >
             {type}
           </button>
         ))}
-      </div>
-      <div className="mt-6">
-        <button
-          onClick={handleNext}
-          disabled={!selected}
-          className="px-6 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
-        >
-          Next
-        </button>
       </div>
     </div>
   );

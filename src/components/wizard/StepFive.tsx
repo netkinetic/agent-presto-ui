@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 export default function StepFive({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
   const { playbook, setCampaignData, campaignData } = useWizardState();
+
   const [formData, setFormData] = useState({
     campaignTitle: playbook?.name || campaignData.campaignTitle || 'Untitled Campaign',
     businessName: campaignData.businessName || '',
@@ -46,58 +47,19 @@ export default function StepFive({ onNext, onBack }: { onNext: () => void; onBac
       )}
 
       <div className="space-y-4">
-        <label className="block">
-          <span className="font-semibold">Campaign Title</span>
-          <input
-            type="text"
-            id="campaignTitle"
-            value={formData.campaignTitle}
-            onChange={handleChange}
-            className="mt-1 w-full border border-gray-300 rounded p-2"
-          />
-        </label>
-
-        <label className="block">
-          <span className="font-semibold">Business Name</span>
-          <input
-            type="text"
-            id="businessName"
-            value={formData.businessName}
-            onChange={handleChange}
-            className="mt-1 w-full border border-gray-300 rounded p-2"
-          />
-        </label>
-
-        <label className="block">
-          <span className="font-semibold">Website</span>
-          <input
-            type="text"
-            id="website"
-            value={formData.website}
-            onChange={handleChange}
-            className="mt-1 w-full border border-gray-300 rounded p-2"
-          />
-        </label>
-
-        <label className="block">
-          <span className="font-semibold">Keywords</span>
-          <input
-            type="text"
-            id="keywords"
-            value={formData.keywords}
-            onChange={handleChange}
-            className="mt-1 w-full border border-gray-300 rounded p-2"
-          />
-        </label>
-
+        <InputField id="campaignTitle" label="Campaign Title" value={formData.campaignTitle} onChange={handleChange} />
+        <InputField id="businessName" label="Business Name" value={formData.businessName} onChange={handleChange} />
+        <InputField id="website" label="Website" value={formData.website} onChange={handleChange} />
+        <InputField id="keywords" label="Keywords" value={formData.keywords} onChange={handleChange} />
+        
         <label className="block">
           <span className="font-semibold">Goal</span>
           <input
             type="text"
             id="goal"
             value={formData.goal}
-            onChange={handleChange}
-            className="mt-1 w-full border border-gray-300 rounded p-2"
+            readOnly
+            className="mt-1 w-full border border-gray-300 rounded p-2 bg-gray-100"
           />
         </label>
 
@@ -115,16 +77,12 @@ export default function StepFive({ onNext, onBack }: { onNext: () => void; onBac
           </select>
         </label>
 
-        <label className="block">
-          <span className="font-semibold">Additional Instructions</span>
-          <input
-            type="text"
-            id="additionalInstructions"
-            value={formData.additionalInstructions}
-            onChange={handleChange}
-            className="mt-1 w-full border border-gray-300 rounded p-2"
-          />
-        </label>
+        <InputField
+          id="additionalInstructions"
+          label="Additional Instructions"
+          value={formData.additionalInstructions}
+          onChange={handleChange}
+        />
 
         <label className="block">
           <span className="font-semibold">Playbook Duration</span>
@@ -152,5 +110,30 @@ export default function StepFive({ onNext, onBack }: { onNext: () => void; onBac
         </button>
       </div>
     </div>
+  );
+}
+
+function InputField({
+  id,
+  label,
+  value,
+  onChange,
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) {
+  return (
+    <label className="block">
+      <span className="font-semibold">{label}</span>
+      <input
+        type="text"
+        id={id}
+        value={value}
+        onChange={onChange}
+        className="mt-1 w-full border border-gray-300 rounded p-2"
+      />
+    </label>
   );
 }
