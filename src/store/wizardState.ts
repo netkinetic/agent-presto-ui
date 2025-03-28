@@ -1,20 +1,20 @@
 // src/store/wizardState.ts
 import { create } from 'zustand';
-import { Playbook, CampaignContent, CampaignData } from '@/types';
+import { Playbook, CampaignContent, CampaignFormData } from '@/types';
 
 interface WizardState {
   industry: string;
   businessType: string;
   goal: string;
   playbook: Playbook | null;
-  campaignData: CampaignData;
+  campaignData: CampaignFormData;
   campaignContent: CampaignContent | null;
 
   setIndustry: (industry: string) => void;
   setBusinessType: (type: string) => void;
   setGoal: (goal: string) => void;
   setSelectedPlaybook: (pb: Playbook) => void;
-  setCampaignData: (data: CampaignData) => void;
+  setCampaignData: (data: CampaignFormData) => void;
   setGeneratedContent: (content: CampaignContent) => void;
 }
 
@@ -32,6 +32,7 @@ export const useWizardState = create<WizardState>((set) => ({
     contentLength: 'short',
     additionalInstructions: '',
     playbookDuration: '30 days',
+    businessType: '',
   },
   campaignContent: null,
 
