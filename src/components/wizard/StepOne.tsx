@@ -1,4 +1,3 @@
-// StepOne.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -6,20 +5,25 @@ import { fetchIndustries } from '@/lib/api';
 import { useWizardState } from '@/store/wizardState';
 
 export default function StepOne({ onNext }: { onNext: () => void }) {
+  const { industry, setIndustry } = useWizardState();
   const [industries, setIndustries] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const { setIndustry, industry } = useWizardState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     fetchIndustries()
       .then(setIndustries)
+      .catch((err) => console.error('Failed to fetch industries:', err))
       .finally(() => setLoading(false));
   }, []);
 
+  const handleSelect = (ind: string) => {
+    setIndustry(ind);
+    onNext();
+  };
+
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4">What industry are you in?</h2>
+      <h2 className="text-2xl font-bold mb-4">What industry are you in?</h2>
       {loading ? (
         <p>Loading industries...</p>
       ) : (
@@ -27,11 +31,8 @@ export default function StepOne({ onNext }: { onNext: () => void }) {
           {industries.map((ind) => (
             <button
               key={ind}
-              onClick={() => {
-                setIndustry(ind);
-                onNext();
-              }}
-              className={`p-3 rounded border hover:bg-blue-100 transition ${industry === ind ? 'bg-blue-200 border-blue-500' : 'bg-white'}`}
+              onClick={() => handleSelect(ind)}
+              className="p-3 rounded border bg-white hover:bg-blue-100 transition"
             >
               {ind}
             </button>

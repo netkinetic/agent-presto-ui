@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { fetchBusinessTypes } from '@/lib/api';
 import { useWizardState } from '@/store/wizardState';
 
-export default function StepTwo({ onNext }: { onNext: () => void }) {
+export default function StepTwo({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
   const { industry, setBusinessType } = useWizardState();
   const [businessTypes, setBusinessTypes] = useState<string[]>([]);
 
@@ -16,7 +16,7 @@ export default function StepTwo({ onNext }: { onNext: () => void }) {
 
   const handleSelect = (type: string) => {
     setBusinessType(type);
-    onNext(); // proceed to next step automatically
+    onNext();
   };
 
   return (
@@ -26,12 +26,15 @@ export default function StepTwo({ onNext }: { onNext: () => void }) {
         {businessTypes.map((type) => (
           <button
             key={type}
-            className="w-full text-left p-3 border rounded bg-white hover:bg-blue-100 hover:border-blue-500 transition"
             onClick={() => handleSelect(type)}
+            className="w-full text-left p-3 border rounded bg-white hover:bg-blue-50 transition"
           >
             {type}
           </button>
         ))}
+      </div>
+      <div className="mt-6">
+        <button onClick={onBack} className="px-4 py-2 bg-gray-200 rounded">← Back</button>
       </div>
     </div>
   );
