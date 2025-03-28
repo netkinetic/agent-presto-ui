@@ -1,5 +1,4 @@
 'use client';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { ReactNode } from 'react';
@@ -26,18 +25,17 @@ export default function WizardLayout({ children }: { children: ReactNode }) {
           {steps.map(({ step, label, path }) => {
             const isActive = pathname === path;
             return (
-              <Link
+              <div
                 key={step}
-                href={path}
                 className={clsx(
-                  'block px-4 py-3 rounded-xl border transition-all duration-300 font-medium shadow-sm',
+                  'block px-4 py-3 rounded-xl border transition-all duration-300 font-medium shadow-sm cursor-not-allowed',
                   isActive
                     ? 'bg-blue-600 text-white border-blue-600 scale-105 shadow-lg animate-pulse'
-                    : 'text-gray-700 border-gray-200 hover:border-blue-400 hover:bg-blue-50'
+                    : 'text-gray-400 border-gray-100 bg-gray-50'
                 )}
               >
                 Step {step}: {label}
-              </Link>
+              </div>
             );
           })}
         </nav>
