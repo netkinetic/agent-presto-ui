@@ -1,5 +1,5 @@
 'use client';
-import { useWizardStore } from '@/store/wizardState';
+import { useWizardState } from '@/store/wizardState';
 
 export default function StepSeven() {
   const { playbook } = useWizardStore();
