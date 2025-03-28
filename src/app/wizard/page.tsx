@@ -39,11 +39,23 @@ export default function Wizard() {
         {step === 1 && <StepOne onNext={next} />}
         {step === 2 && <StepTwo onNext={next} onBack={back} />}
         {step === 3 && <StepThree onNext={next} onBack={back} />}
-        {step === 4 && <StepFour onNext={next} onBack={back} />}
+        {step === 4 && <StepFour onConfirm={next} onBack={back} />}
         {step === 5 && <StepFive onNext={next} onBack={back} />}
         {step === 6 && <StepSix onNext={next} onBack={back} />}
         {step === 7 && <StepSeven onNext={next} onBack={back} />}
-        {step === 8 && <StepEight />}
+        {step === 8 && (
+  <StepEight
+    mode="draft"
+    deliverables={[
+      { label: 'Landing Page', url: '#' },
+      { label: 'Email Campaign', url: '#' },
+    ]}
+    onDownloadPDF={() => console.log('Download PDF')}
+    onSendEmail={() => console.log('Send Email')}
+    onUpgrade={() => console.log('Upgrade')}
+  />
+)}
+
       </div>
     </div>
   );
