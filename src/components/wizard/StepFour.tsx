@@ -1,10 +1,17 @@
+// src/components/wizard/StepFour.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useWizardState } from '@/store/wizardState';
 import { Playbook } from '@/types';
 
-export default function StepFour({ onConfirm, onBack }: { onConfirm: () => void; onBack: () => void }) {
+export default function StepFour({
+  onConfirm,
+  onBack,
+}: {
+  onConfirm: () => void;
+  onBack: () => void;
+}) {
   const { goal, businessType, setSelectedPlaybook } = useWizardState();
   const [playbooks, setPlaybooks] = useState<Playbook[]>([]);
   const [loading, setLoading] = useState(false);
@@ -14,14 +21,26 @@ export default function StepFour({ onConfirm, onBack }: { onConfirm: () => void;
     async function fetchPlaybooks() {
       try {
         setLoading(true);
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/dynamic-playbooks`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ goal, business: businessType }),
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE}/api/dynamic-playbooks`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ goal, business: businessType }),
+          }
+        );
+
+        const contentType = res.headers.get('content-type');
+        if (!res.ok || !contentType?.includes('application/json')) {
+          const text = await res.text();
+          throw new Error(`Unexpected response: ${text.slice(0, 100)}...`);
+        }
 
         const json = await res.json();
-        if (!json.success) throw new Error('Failed to fetch playbooks.');
+        if (!json.success || !Array.isArray(json.data)) {
+          throw new Error('Playbooks not found.');
+        }
+
         setPlaybooks(json.data);
       } catch (err: any) {
         setError(err.message || 'Something went wrong.');
@@ -41,7 +60,10 @@ export default function StepFour({ onConfirm, onBack }: { onConfirm: () => void;
       <h2 className="text-2xl font-semibold mb-4">Choose a Playbook</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {playbooks.map((pb, index) => (
-          <div key={index} className="border rounded-xl p-4 shadow hover:shadow-lg transition">
+          <div
+            key={index}
+            className="border rounded-xl p-4 shadow hover:shadow-lg transition"
+          >
             <img
               src={pb.thumbnail_url || '/placeholder.png'}
               alt={pb.name}
@@ -51,7 +73,9 @@ export default function StepFour({ onConfirm, onBack }: { onConfirm: () => void;
             <p className="text-gray-600 mb-3">{pb.short_desc}</p>
             <ul className="text-sm mb-3">
               {pb.deliverables.map((item, idx) => (
-                <li key={idx} className="text-gray-500">✔ {item.label}</li>
+                <li key={idx} className="text-gray-500">
+                  ✔ {item.label}
+                </li>
               ))}
             </ul>
             <button
@@ -68,7 +92,9 @@ export default function StepFour({ onConfirm, onBack }: { onConfirm: () => void;
       </div>
 
       <div className="mt-6">
-        <button onClick={onBack} className="px-4 py-2 bg-gray-200 rounded">← Back</button>
+        <button onClick={onBack} className="px-4 py-2 bg-gray-200 rounded">
+          ← Back
+        </button>
       </div>
     </div>
   );
