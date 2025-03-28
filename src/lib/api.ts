@@ -35,12 +35,15 @@ export async function fetchBusinessTypes(industry: string): Promise<string[]> {
     throw new Error(`Failed to parse business types JSON: ${err}`);
   }
 
-  if (!json || !json.data || !Array.isArray(json.data.businessTypes)) {
+  // Fallback: check for either key
+  const businessTypes = json.data.businessTypes || json.data.business_types;
+  if (!businessTypes || !Array.isArray(businessTypes)) {
     throw new Error('Invalid response while fetching business types');
   }
 
-  return json.data.businessTypes;
+  return businessTypes;
 }
+
 
 export async function fetchGoals({
   industry,
