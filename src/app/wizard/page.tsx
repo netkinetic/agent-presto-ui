@@ -43,7 +43,8 @@ export default function WizardPage() {
         {step === 1 && <StepOne onNext={next} />}
         {step === 2 && <StepTwo onNext={next} />}
         {step === 3 && <StepThree onNext={next} />}
-        {step === 4 && <StepFour onNext={next} />}
+        {step === 4 && <StepFour onConfirm={next} />}
+
         {step === 5 && <StepFive onNext={next} />}
         {step === 6 && <StepSix onNext={next} />}
         {step === 7 && <StepSeven />}
