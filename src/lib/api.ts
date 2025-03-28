@@ -40,24 +40,20 @@ export async function fetchBusinessTypes(industry: string): Promise<string[]> {
 }
 
 
-// src/lib/api.ts
-
-export async function fetchGoals(businessType: string): Promise<string[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/dynamic-goals`, {
+export async function fetchGoals({
+  industry,
+  businessType,
+}: {
+  industry?: string;
+  businessType: string;
+}): Promise<string[]> {
+  const res = await fetch(`${API_BASE}/api/dynamic-goals`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ businessType }),
   });
-
   const json = await res.json();
-
-  if (!json.success || !Array.isArray(json.data)) {
-    throw new Error('Invalid response while fetching goals');
-  }
-
-  return json.data;
+  return json.data.goals;
 }
 
 
