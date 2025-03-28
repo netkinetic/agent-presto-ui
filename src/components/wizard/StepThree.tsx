@@ -1,3 +1,4 @@
+// src/components/wizard/StepThree.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -11,7 +12,7 @@ export default function StepThree({ onNext, onBack }: { onNext: () => void; onBa
 
   useEffect(() => {
     if (industry && businessType) {
-      fetchGoals(industry, businessType)
+      fetchGoals({ industry, businessType })
         .then(setGoals)
         .catch((err) => console.error('Failed to fetch goals:', err))
         .finally(() => setLoading(false));

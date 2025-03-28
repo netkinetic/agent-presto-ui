@@ -16,15 +16,23 @@ export async function fetchBusinessTypes(industry: string): Promise<string[]> {
   return json.data.business_types;
 }
 
-export async function fetchGoals(businessType: string): Promise<string[]> {
+export async function fetchGoals({
+  industry,
+  businessType,
+}: {
+  industry: string;
+  businessType: string;
+}): Promise<string[]> {
   const res = await fetch(`${API_BASE}/api/dynamic-goals`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ businessType }),
+    body: JSON.stringify({ industry, businessType }),
   });
+
   const json = await res.json();
   return json.data.goals;
 }
+
 
 export async function generateCampaignContent(payload: Record<string, any>) {
   const res = await fetch(`${API_BASE}/api/campaign-content`, {
