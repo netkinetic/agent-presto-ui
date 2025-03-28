@@ -5,20 +5,14 @@ const API_BASE = 'https://agent-presto-api.onrender.com';
 export async function fetchIndustries(): Promise<string[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/dynamic-industries`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
   });
 
+  if (!res.ok) throw new Error('Invalid response while fetching industries');
+
   const json = await res.json();
-
-  if (!json.success || !Array.isArray(json.data)) {
-    throw new Error('Invalid response while fetching industries');
-  }
-
-  return json.data;
+  return json.data.industries;
 }
-
 
 
 export async function fetchBusinessTypes(industry: string): Promise<string[]> {
