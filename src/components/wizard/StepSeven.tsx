@@ -86,16 +86,6 @@ export default function StepSeven({
         <div className="mt-8 text-sm text-gray-500 animate-pulse">Processing your request...</div>
       )}
 
-      {/* Optional Back Button */}
-      <div className="mt-10">
-        <button
-          onClick={onBack}
-          className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-        >
-          ← Back
-        </button>
-      </div>
-
       {/* Preview Modal */}
       {previewItem && (
         <Modal onClose={() => setPreviewItem(null)}>

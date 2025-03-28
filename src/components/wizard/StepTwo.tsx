@@ -33,9 +33,7 @@ export default function StepTwo({ onNext, onBack }: { onNext: () => void; onBack
           </button>
         ))}
       </div>
-      <div className="mt-6">
-        <button onClick={onBack} className="px-4 py-2 bg-gray-200 rounded">← Back</button>
-      </div>
+
     </div>
   );
 }

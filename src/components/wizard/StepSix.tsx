@@ -58,9 +58,6 @@ export default function StepSix({ onNext, onBack }: { onNext: () => void; onBack
         <div className="space-y-4">
           <p className="text-red-600 font-semibold">{error}</p>
           <div className="mt-6 flex justify-center gap-4">
-            <button onClick={onBack} className="px-4 py-2 bg-gray-200 rounded">
-              ← Back
-            </button>
             <button
               onClick={() => window.location.reload()}
               className="px-4 py-2 bg-blue-600 text-white rounded"

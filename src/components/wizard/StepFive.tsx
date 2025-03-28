@@ -102,9 +102,6 @@ export default function StepFive({ onNext, onBack }: { onNext: () => void; onBac
       </div>
 
       <div className="flex gap-2 pt-4">
-        <button onClick={onBack} className="px-4 py-2 bg-gray-200 rounded">
-          ← Back
-        </button>
         <button onClick={handleNext} className="px-4 py-2 bg-blue-600 text-white rounded">
           Generate →
         </button>

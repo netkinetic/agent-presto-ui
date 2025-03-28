@@ -1,20 +1,44 @@
 const API_BASE = 'https://agent-presto-api.onrender.com';
 
+// src/lib/api.ts (or wherever you define your fetch functions)
+
 export async function fetchIndustries(): Promise<string[]> {
-  const res = await fetch(`${API_BASE}/api/dynamic-industries`, { method: 'POST' });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/dynamic-industries`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
   const json = await res.json();
-  return json.data.industries;
+
+  if (!json.success || !Array.isArray(json.data)) {
+    throw new Error('Invalid response while fetching industries');
+  }
+
+  return json.data;
 }
 
+
+
 export async function fetchBusinessTypes(industry: string): Promise<string[]> {
-  const res = await fetch(`${API_BASE}/api/dynamic-business-types`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/dynamic-business-types`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({ industry }),
   });
+
   const json = await res.json();
-  return json.data.business_types;
+
+  if (!json.success || !Array.isArray(json.data)) {
+    throw new Error('Invalid response while fetching business types');
+  }
+
+  return json.data;
 }
+
 
 // src/lib/api.ts
 
@@ -53,3 +77,20 @@ export async function generateCampaignContent(payload: Record<string, any>) {
   return await res.json();
 }
 
+// src/lib/api.ts
+
+export async function fetchPlaybooks(goal: string, business: string) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/dynamic-playbooks`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ goal, business }),
+  });
+
+  const json = await res.json();
+
+  if (!json.success || !Array.isArray(json.data)) {
+    throw new Error('Invalid response while fetching playbooks');
+  }
+
+  return json.data;
+}
