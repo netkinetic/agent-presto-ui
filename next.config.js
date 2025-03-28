@@ -5,9 +5,6 @@ const nextConfig = {
   images: {
     domains: ['localhost', 'agent-presto-api.onrender.com'],
   },
-  experimental: {
-    appDir: true,
-  },
 };
 
 module.exports = nextConfig;
