@@ -1,12 +1,17 @@
-// src/components/wizard/StepSeven.tsx
 'use client';
 
 import { useWizardState } from '@/store/wizardState';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Modal from '@/components/ui/Modal'; // Make sure this modal exists or create it
+import Modal from '@/components/ui/Modal'; // Make sure this file exists
 
-export default function StepSeven() {
+export default function StepSeven({
+  onNext,
+  onBack,
+}: {
+  onNext: () => void;
+  onBack: () => void;
+}) {
   const { campaignContent } = useWizardState();
   const [isPublishing, setIsPublishing] = useState(false);
   const [previewItem, setPreviewItem] = useState<any | null>(null);
@@ -80,6 +85,16 @@ export default function StepSeven() {
       {isPublishing && (
         <div className="mt-8 text-sm text-gray-500 animate-pulse">Processing your request...</div>
       )}
+
+      {/* Optional Back Button */}
+      <div className="mt-10">
+        <button
+          onClick={onBack}
+          className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+        >
+          ← Back
+        </button>
+      </div>
 
       {/* Preview Modal */}
       {previewItem && (
