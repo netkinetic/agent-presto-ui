@@ -37,15 +37,16 @@ export default function Wizard() {
 
       {/* Render Step Component */}
       <div className="transition-all duration-300 ease-in-out">
-        {step === 1 && <StepOne onNext={next} />}
-        {step === 2 && <StepTwo onNext={next} onBack={back} />}
-        {step === 3 && <StepThree onNext={next} onBack={back} />}
-        {step === 4 && <StepFour onConfirm={next} onBack={back} />}
-        {step === 5 && <StepFive onNext={next} onBack={back} />}
-        {step === 6 && <StepSix onNext={next} onBack={back} />}
-        {step === 7 && <StepSeven onNext={next} onBack={back} />}
-        {step === 8 && <StepEight />}
-      </div>
+  {step === 1 && <StepOne onNext={next} />}
+  {step === 2 && <StepTwo onNext={next} onBack={back} />}
+  {step === 3 && <StepThree onNext={next} onBack={back} />}
+  {step === 4 && <StepFour onConfirm={next} onBack={back} />} // ✅ FIXED
+  {step === 5 && <StepFive onNext={next} onBack={back} />}
+  {step === 6 && <StepSix onNext={next} onBack={back} />}
+  {step === 7 && <StepSeven onNext={next} onBack={back} />}
+  {step === 8 && <StepEight />}
+</div>
+
     </div>
   );
 }
