@@ -1,3 +1,4 @@
+// src/components/wizard/StepContent.tsx
 import React from 'react';
 
 interface StepContentProps {
@@ -5,9 +6,9 @@ interface StepContentProps {
 }
 
 const StepContent: React.FC<StepContentProps> = ({ step }) => (
-  <div>
-    <h1>Step {step}</h1>
-    <p>This is the content for step {step}.</p>
+  <div className="p-4">
+    <h1 className="text-xl font-semibold">Step {step}</h1>
+    <p className="mt-2">This is the content for step {step}.</p>
   </div>
 );
 
