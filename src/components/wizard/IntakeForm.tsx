@@ -2,62 +2,70 @@
 import React, { useState } from 'react';
 import { useWizardState } from '@/store/wizardState';
 
-interface Props {
-  onComplete: () => void;
+interface IntakeFormProps {
+  onNext: () => void;
 }
 
-export default function IntakeForm({ onComplete }: Props) {
+export default function IntakeForm({ onNext }: IntakeFormProps) {
   const { campaignData, setCampaignData } = useWizardState();
-  const [form, setForm] = useState(campaignData);
+  const [formData, setFormData] = useState({
+    // Use generic labels for personal, career, business, etc.
+    campaignTitle: campaignData.campaignTitle || 'Untitled Campaign',
+    businessName: campaignData.businessName || '',
+    website: campaignData.website || '',
+    keywords: campaignData.keywords || '',
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setCampaignData(form);
-    onComplete();
+    setCampaignData(formData);
+    onNext();
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <input
-        type="text"
-        name="campaignTitle"
-        placeholder="What should we call this campaign?"
-        className="input w-full"
-        value={form.campaignTitle}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        name="name"
-        placeholder="Your Name / Brand / Business"
-        className="input w-full"
-        value={form.businessName}
-        onChange={(e) => setForm({ ...form, businessName: e.target.value })}
-        required
-      />
-      <input
-        type="text"
-        name="website"
-        placeholder="Website or Profile URL"
-        className="input w-full"
-        value={form.website}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="keywords"
-        placeholder="Keywords (comma separated)"
-        className="input w-full"
-        value={form.keywords}
-        onChange={handleChange}
-      />
-      <button type="submit" className="btn w-full bg-blue-600 text-white hover:bg-blue-700">
-        Start Wizard
+      <h2 className="text-2xl font-bold text-blue-600 mb-4">Tell Us About Yourself</h2>
+      <label className="block">
+        <span className="font-semibold">Name / Brand / Organization</span>
+        <input
+          id="businessName"
+          type="text"
+          value={formData.businessName}
+          onChange={handleChange}
+          placeholder="e.g., John Doe, Acme Inc."
+          className="mt-1 w-full border border-gray-300 rounded p-2"
+          required
+        />
+      </label>
+      <label className="block">
+        <span className="font-semibold">Website or Profile URL</span>
+        <input
+          id="website"
+          type="url"
+          value={formData.website}
+          onChange={handleChange}
+          placeholder="https://example.com"
+          className="mt-1 w-full border border-gray-300 rounded p-2"
+        />
+      </label>
+      <label className="block">
+        <span className="font-semibold">Keywords or Interests</span>
+        <input
+          id="keywords"
+          type="text"
+          value={formData.keywords}
+          onChange={handleChange}
+          placeholder="e.g., innovation, leadership, design"
+          className="mt-1 w-full border border-gray-300 rounded p-2"
+        />
+      </label>
+      <button type="submit" className="btn w-full bg-blue-600 text-white rounded hover:bg-blue-700">
+        Next →
       </button>
     </form>
   );

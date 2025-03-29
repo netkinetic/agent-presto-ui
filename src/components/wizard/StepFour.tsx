@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useWizardState } from '@/store/wizardState';
 import { Playbook } from '@/types';
+import ImageWithFallback from '@/components/ImageWithFallback';
 
 export default function StepFour({ onConfirm, onBack }: { onConfirm: () => void; onBack: () => void }) {
   const { goal, businessType, setSelectedPlaybook } = useWizardState();
@@ -45,9 +46,10 @@ export default function StepFour({ onConfirm, onBack }: { onConfirm: () => void;
       <h2 className="text-2xl font-semibold mb-4">Choose a Playbook</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {playbooks.map((pb, index) => (
-          <div key={index} className="border rounded-xl p-4 shadow hover:shadow-lg transition">
-            <img
-              src={pb.thumbnail_url || '/placeholder.png'}
+          <div key={index} className="border rounded-xl p-4 shadow hover:shadow-lg transition flex flex-col">
+            <ImageWithFallback
+              src={pb.thumbnail_url || '/placeholder.svg'}
+              fallbackSrc="/placeholder.svg"
               alt={pb.name}
               className="w-full h-40 object-cover rounded-lg mb-3"
             />
@@ -55,7 +57,9 @@ export default function StepFour({ onConfirm, onBack }: { onConfirm: () => void;
             <p className="text-gray-600 mb-3">{pb.short_desc}</p>
             <ul className="text-sm mb-3">
               {pb.deliverables.map((item, idx) => (
-                <li key={idx} className="text-gray-500">✔ {item.label}</li>
+                <li key={idx} className="text-gray-500">
+                  ✔ {item.label}
+                </li>
               ))}
             </ul>
             <button
