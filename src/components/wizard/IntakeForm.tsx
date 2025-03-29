@@ -18,6 +18,9 @@ export default function IntakeForm({ onNext }: IntakeFormProps) {
   });
 
   const [greeting, setGreeting] = useState('Welcome to Agent Presto!');
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>('');
+  const [isTransforming, setIsTransforming] = useState(false);
 
   useEffect(() => {
     if (formData.businessName.trim()) {
@@ -29,21 +32,49 @@ export default function IntakeForm({ onNext }: IntakeFormProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
+    setFormData(prev => ({ ...prev, [id]: value }));
   };
 
-  const handleSurprise = () => {
-    const surpriseData = {
-      businessName: 'Captain Spark',
-      website: 'https://captainspark.com',
-      keywords: 'innovation, creativity, fun',
-    };
-    setFormData(surpriseData);
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          setPreviewUrl(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Transform image using our API route at /api/dynamic-image
+  const handleTransformImage = async () => {
+    if (!imageFile) return;
+    setIsTransforming(true);
+    try {
+      const uploadData = new FormData();
+      uploadData.append('file', imageFile);
+      const res = await fetch('/api/dynamic-image', {
+        method: 'POST',
+        body: uploadData,
+      });
+      if (!res.ok) {
+        throw new Error(await res.text());
+      }
+      const { imageUrl } = await res.json();
+      setPreviewUrl(imageUrl);
+    } catch (error: any) {
+      console.error('Error transforming image:', error);
+    } finally {
+      setIsTransforming(false);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setCampaignData({ ...campaignData, ...formData });
+    setCampaignData({ ...campaignData, ...formData, aiImage: previewUrl });
     onNext();
   };
 
@@ -104,16 +135,38 @@ export default function IntakeForm({ onNext }: IntakeFormProps) {
             className="mt-1 w-full border border-gray-300 rounded p-2"
           />
         </div>
+
+        <div>
+          <label htmlFor="image" className="block font-semibold">
+            Upload Your Photo or Logo
+          </label>
+          <input
+            id="image"
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="mt-1 w-full"
+          />
+          {previewUrl && (
+            <img
+              src={previewUrl}
+              alt="Preview"
+              className="mt-2 rounded shadow w-32 h-32 object-cover"
+            />
+          )}
+          {imageFile && (
+            <button
+              type="button"
+              onClick={handleTransformImage}
+              className="mt-2 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition"
+            >
+              {isTransforming ? 'Transforming...' : 'Transform Image'}
+            </button>
+          )}
+        </div>
       </div>
 
-      <div className="flex justify-between items-center">
-        <button
-          type="button"
-          onClick={handleSurprise}
-          className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition"
-        >
-          Surprise Me!
-        </button>
+      <div className="flex justify-end">
         <button
           type="submit"
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"

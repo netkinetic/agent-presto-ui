@@ -8,7 +8,6 @@ export default function StepFive({ onNext, onBack }: { onNext: () => void; onBac
 
   const [formData, setFormData] = useState({
     campaignTitle: playbook?.name || campaignData.campaignTitle || 'Untitled Campaign',
-    // Updated label: "Name / Brand / Organization" is still stored in businessName key for now.
     businessName: campaignData.businessName || '',
     website: campaignData.website || '',
     keywords: campaignData.keywords || '',
@@ -24,7 +23,8 @@ export default function StepFive({ onNext, onBack }: { onNext: () => void; onBac
   };
 
   const handleNext = () => {
-    setCampaignData({ ...formData });
+    // Update global state with the current review data
+    setCampaignData({ ...formData, aiImage: campaignData.aiImage });
     onNext();
   };
 
@@ -108,6 +108,17 @@ export default function StepFive({ onNext, onBack }: { onNext: () => void; onBac
           </select>
         </label>
       </div>
+
+      {campaignData.aiImage && (
+        <div className="border rounded-xl p-4 shadow mt-6">
+          <h3 className="text-xl font-bold mb-2">Your AI-Generated Image</h3>
+          <img
+            src={campaignData.aiImage}
+            alt="AI Generated"
+            className="w-64 h-64 object-cover rounded"
+          />
+        </div>
+      )}
 
       <div className="flex gap-2 pt-4">
         <button onClick={onBack} className="px-4 py-2 bg-gray-300 text-gray-800 rounded">
