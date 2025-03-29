@@ -1,16 +1,17 @@
 'use client';
 import React, { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useWizardState } from '../../store/wizardState';
+import { useWizardState } from '@/store/wizardState';
 import StepLoading from './StepLoading';
 import StepContent from './StepContent';
 
-const TOTAL_STEPS = 8; // Adjust to match your wizard's total steps
+const TOTAL_STEPS = 8; // Adjust to your total number of steps
 
 const YourWizardComponent: React.FC = () => {
   const { isLoading, currentStep, setLoading } = useWizardState();
 
-  // Simulate an API call: force loading for 3 seconds when the component mounts.
+  // For testing, force the loading state for 3 seconds on mount.
+  // In production, you'll control loading around your async API calls.
   useEffect(() => {
     setLoading(true);
     const timer = setTimeout(() => {
@@ -21,8 +22,6 @@ const YourWizardComponent: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      {/* Optionally add a progress indicator here */}
-
       <AnimatePresence mode="wait">
         {isLoading ? (
           <motion.div

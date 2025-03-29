@@ -8,6 +8,7 @@ export default function StepFive({ onNext, onBack }: { onNext: () => void; onBac
 
   const [formData, setFormData] = useState({
     campaignTitle: playbook?.name || campaignData.campaignTitle || 'Untitled Campaign',
+    // Updated label: "Name / Brand / Organization" is still stored in businessName key for now.
     businessName: campaignData.businessName || '',
     website: campaignData.website || '',
     keywords: campaignData.keywords || '',
@@ -36,7 +37,9 @@ export default function StepFive({ onNext, onBack }: { onNext: () => void; onBac
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold">Step 5: Review & Customize</h2>
-      <p className="text-gray-600">Edit and confirm your campaign details before generating content.</p>
+      <p className="text-gray-600">
+        Edit and confirm your details before generating your playbook.
+      </p>
 
       {playbook?.thumbnail_url && (
         <img
@@ -48,10 +51,15 @@ export default function StepFive({ onNext, onBack }: { onNext: () => void; onBac
 
       <div className="space-y-4">
         <InputField id="campaignTitle" label="Campaign Title" value={formData.campaignTitle} onChange={handleChange} />
-        <InputField id="businessName" label="Business Name" value={formData.businessName} onChange={handleChange} />
-        <InputField id="website" label="Website" value={formData.website} onChange={handleChange} />
-        <InputField id="keywords" label="Keywords" value={formData.keywords} onChange={handleChange} />
-        
+        <InputField
+          id="businessName"
+          label="Name / Brand / Organization"
+          value={formData.businessName}
+          onChange={handleChange}
+        />
+        <InputField id="website" label="Website or Profile URL" value={formData.website} onChange={handleChange} />
+        <InputField id="keywords" label="Keywords or Interests" value={formData.keywords} onChange={handleChange} />
+
         <label className="block">
           <span className="font-semibold">Goal</span>
           <input
@@ -102,6 +110,9 @@ export default function StepFive({ onNext, onBack }: { onNext: () => void; onBac
       </div>
 
       <div className="flex gap-2 pt-4">
+        <button onClick={onBack} className="px-4 py-2 bg-gray-300 text-gray-800 rounded">
+          Back
+        </button>
         <button onClick={handleNext} className="px-4 py-2 bg-blue-600 text-white rounded">
           Generate →
         </button>
