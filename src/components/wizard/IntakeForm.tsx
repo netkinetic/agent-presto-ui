@@ -142,6 +142,7 @@ export default function IntakeForm({ onNext }: IntakeFormProps) {
           </label>
           <input
             id="image"
+            name="file"
             type="file"
             accept="image/*"
             onChange={handleImageUpload}
