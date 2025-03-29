@@ -1,6 +1,6 @@
 // src/components/wizard/StepLoading.tsx
 import React from 'react';
-import Spinner from './Spinner';
+import Spinner from './../Spinner';
 
 const StepLoading: React.FC = () => (
   <div className="p-4 flex flex-col items-center">

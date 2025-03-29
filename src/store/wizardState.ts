@@ -12,6 +12,7 @@ interface WizardState {
   campaignContent: CampaignContent | null;
   isLoading: boolean;
 
+  // Actions to update state
   setCurrentStep: (step: number) => void;
   setIndustry: (industry: string) => void;
   setBusinessType: (type: string) => void;
@@ -42,6 +43,7 @@ export const useWizardState = create<WizardState>((set) => ({
   campaignContent: null,
   isLoading: false,
 
+  // Actions
   setCurrentStep: (step: number) => set({ currentStep: step }),
   setIndustry: (industry: string) => set({ industry }),
   setBusinessType: (type: string) => set({ businessType: type }),
