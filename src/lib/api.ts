@@ -62,7 +62,7 @@ export async function fetchGoals({
 }
 
 export async function generateCampaignContent(payload: Record<string, any>) {
-  const res = await fetch(`${API_BASE}/api/campaign-content`, {
+  const res = await fetch(`${API_BASE}/api/generate-campaign`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
