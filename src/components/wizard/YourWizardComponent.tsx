@@ -6,17 +6,17 @@ import ProgressBar from './ProgressBar';
 import StepLoading from './StepLoading';
 import StepContent from './StepContent';
 
-const TOTAL_STEPS = 8; // Adjust this to your wizard's total steps
+const TOTAL_STEPS = 8; // Adjust accordingly
 
 const YourWizardComponent: React.FC = () => {
   const { isLoading, currentStep } = useWizardState();
 
   return (
-    <div className="max-w-3xl mx-auto p-4">
-      {/* Progress indicator */}
+    <div className="max-w-4xl mx-auto p-4">
+      {/* Progress Indicator */}
       <ProgressBar totalSteps={TOTAL_STEPS} />
 
-      {/* Wizard content with smooth transitions */}
+      {/* Animated Content */}
       <div className="mt-6">
         <AnimatePresence mode="wait">
           {isLoading ? (
