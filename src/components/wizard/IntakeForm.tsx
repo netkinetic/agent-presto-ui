@@ -49,6 +49,16 @@ export default function IntakeForm({ onNext }: IntakeFormProps) {
     }
   };
 
+  // Autofill the form with playful data
+  const handleSurpriseMe = () => {
+    const surpriseData = {
+      businessName: 'Wonder Widgets Inc.',
+      website: 'https://www.wonderwidgets.com',
+      keywords: 'magic, innovation, fun',
+    };
+    setFormData(surpriseData);
+  };
+
   // Transform image using our API route at /api/dynamic-image
   const handleTransformImage = async () => {
     if (!imageFile) return;
@@ -91,6 +101,17 @@ export default function IntakeForm({ onNext }: IntakeFormProps) {
       <p className="text-gray-600 text-center">
         Tell us about yourself so we can craft a custom playbook for your personal, career, business, or community goals!
       </p>
+
+      {/* Surprise Me Button */}
+      <div className="flex justify-center">
+        <button
+          type="button"
+          onClick={handleSurpriseMe}
+          className="mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+        >
+          Surprise Me!
+        </button>
+      </div>
 
       <div className="space-y-4">
         <div>
